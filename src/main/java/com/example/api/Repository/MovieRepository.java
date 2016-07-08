@@ -10,6 +10,10 @@ public interface MovieRepository {
 
 	public Movie findOne(String id);
 	
+	public List<Movie> findAllMovies();
+	
+	public List<Movie> findAllTVSeries();
+	
 	public Movie findByImdbId(String imdbID);
 	
 	public Movie findByTitle(String title);

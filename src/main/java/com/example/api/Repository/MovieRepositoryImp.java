@@ -65,4 +65,18 @@ public class MovieRepositoryImp implements MovieRepository {
 			return null;
 	}
 
+	
+	@Override
+	public List<Movie> findAllMovies() {
+		TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m WHERE m.Type = 'movie'", Movie.class);
+		return query.getResultList();
+	}
+
+	
+	@Override
+	public List<Movie> findAllTVSeries() {
+		TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m WHERE m.Type = 'series'", Movie.class);
+		return query.getResultList();
+	}
+
 }

@@ -10,6 +10,10 @@ public interface MovieService {
 
 	public Movie findOne(String id);
 	
+	public List<Movie> findAllMovies();
+	
+	public List<Movie> findAllTVSeries();
+	
 	public Movie create(Movie movie);
 	
 	public Movie update(String id, Movie movie);

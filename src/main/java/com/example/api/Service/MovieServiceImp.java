@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.api.Exception.MovieAlreadyExistException;
 import com.example.api.Exception.MovieNotFound;
 import com.example.api.Repository.MovieRepository;
 import com.example.api.entity.Movie;
@@ -33,9 +32,6 @@ public class MovieServiceImp implements MovieService {
 
 	@Override
 	public Movie create(Movie movie) {
-//		Movie existing = repository.findByImdbId(movie.getImdbID());
-//		if (existing != null)
-//			throw new MovieAlreadyExistException("Movie with imdb id=" + movie.getImdbID() + " already exists...");
 		return repository.create(movie);
 	}
 
@@ -53,6 +49,17 @@ public class MovieServiceImp implements MovieService {
 		if (existing == null)
 			throw new MovieNotFound("User with id=" + id + " not found");
 		repository.delete(existing);
+	}
+
+	
+	@Override
+	public List<Movie> findAllMovies() {
+		return repository.findAllMovies();
+	}
+
+	@Override
+	public List<Movie> findAllTVSeries() {
+		return repository.findAllTVSeries();
 	}
 
 }

@@ -15,15 +15,25 @@ import com.example.api.Service.MovieService;
 import com.example.api.entity.Movie;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/api")
 public class MovieController {
 
 	@Autowired
 	private MovieService service;
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value="/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<Movie> findAll() {
 		return service.findAll();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/all/movies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<Movie> findAllMovies() {
+		return service.findAllMovies();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/all/series", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public List<Movie> findAllSeries() {
+		return service.findAllTVSeries();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{movieId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -31,7 +41,7 @@ public class MovieController {
 		return service.findOne(movieID);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value="/new" , produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Movie create(@RequestBody Movie movie) {
 		return service.create(movie);
 	}
