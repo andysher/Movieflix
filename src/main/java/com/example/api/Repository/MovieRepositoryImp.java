@@ -28,17 +28,6 @@ public class MovieRepositoryImp implements MovieRepository {
 	}
 
 	@Override
-	public Movie findByImdbId(String imdbID) {
-		TypedQuery<Movie> query = em.createQuery("Movie.findByImdbId", Movie.class);
-		query.setParameter("pImdbID", imdbID);
-		List<Movie> movies = query.getResultList();
-		if (movies != null && movies.size() == 1)
-			return movies.get(0);
-		else
-			return null;
-	}
-
-	@Override
 	public Movie create(Movie movie) {
 		em.persist(movie);
 		return movie;
@@ -55,28 +44,25 @@ public class MovieRepositoryImp implements MovieRepository {
 	}
 
 	@Override
-	public Movie findByTitle(String title) {
-		TypedQuery<Movie> query = em.createQuery("Movie.findByTitle", Movie.class);
-		query.setParameter("pTitle", title);
+	public List<Movie> searchByTitle(String title) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByTitle", Movie.class).setParameter("pTitle",
+				"%" + title + "%");
 		List<Movie> movies = query.getResultList();
-		if (movies != null && movies.size() == 1)
-			return movies.get(0);
-		else
-			return null;
+		return movies;
 	}
 
-	
 	@Override
-	public List<Movie> findAllMovies() {
-		TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m WHERE m.Type = 'movie'", Movie.class);
-		return query.getResultList();
+	public List<Movie> searchByType(String type) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByType", Movie.class).setParameter("pType", type);
+		List<Movie> movies = query.getResultList();
+		return movies;
 	}
 
-	
 	@Override
-	public List<Movie> findAllTVSeries() {
-		TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m WHERE m.Type = 'series'", Movie.class);
-		return query.getResultList();
+	public List<Movie> searchByGenre(String genre) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByGenre", Movie.class).setParameter("pGenre", "%" + genre + "%");
+		List<Movie> movies = query.getResultList();
+		return movies;
 	}
 
 }

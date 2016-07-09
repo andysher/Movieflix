@@ -1,6 +1,9 @@
 package com.example.api.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,13 @@ public class MovieServiceImp implements MovieService {
 	}
 
 	@Override
+	public List<Movie> createDB(List<Movie> movies) {
+		List<Movie> temp = new ArrayList<Movie>();
+		movies.forEach(t -> temp.add(repository.create(t)));
+		return temp;
+	}
+	
+	@Override
 	public Movie update(String id, Movie movie) {
 		Movie existing = repository.findOne(id);
 		if (existing == null)
@@ -51,15 +61,23 @@ public class MovieServiceImp implements MovieService {
 		repository.delete(existing);
 	}
 
-	
 	@Override
-	public List<Movie> findAllMovies() {
-		return repository.findAllMovies();
+	public Set<Movie> searchByTitle(List<String> titles) {
+		Set<Movie> temp = new HashSet<Movie>();
+		titles.forEach(t -> temp.addAll(repository.searchByTitle(t.toLowerCase())));
+		return temp;
 	}
 
+
 	@Override
-	public List<Movie> findAllTVSeries() {
-		return repository.findAllTVSeries();
+	public List<Movie> searchByType(String type) {
+		return repository.searchByType(type.toLowerCase());
+	}
+
+	
+	@Override
+	public List<Movie> searchByGenre(String genre) {
+		return repository.searchByGenre(genre.toLowerCase());
 	}
 
 }
