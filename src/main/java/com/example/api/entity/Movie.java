@@ -76,6 +76,7 @@ public class Movie {
 	@Column(unique = true)
 	private String imdbID;
 	@JsonProperty("Type")
+	@JsonView(View.Summary.class)
 	private String type;
 
 	public String getId() {

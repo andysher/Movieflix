@@ -1,6 +1,7 @@
 package com.example.api.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,7 @@ public class ReviewServiceImp implements ReviewService, ReviewSummary{
 		Review existing = repository.findOne(id);
 		if (existing == null)
 			throw new ReviewNotFound("Review with id= " + id + "not found.");
-		List<Review> temp = new ArrayList<Review>();
-		temp.add(existing);
+		List<Review> temp = Arrays.asList(existing);
 		return generateSummaryView(temp).get(0);
 	}
 
@@ -47,8 +47,7 @@ public class ReviewServiceImp implements ReviewService, ReviewSummary{
 		Review existing = repository.findOne(id);
 		if (existing == null)
 			throw new ReviewNotFound("Review with id= " + id + "not found.");
-		List<Review> temp = new ArrayList<Review>();
-		temp.add(repository.update(review));
+		List<Review> temp = Arrays.asList(repository.update(review));
 		return generateSummaryView(temp).get(0);
 	}
 
@@ -62,7 +61,7 @@ public class ReviewServiceImp implements ReviewService, ReviewSummary{
 
 	@Override
 	public List<Review> generateSummaryView(List<Review> reviews) {
-		List<Review> trim = new ArrayList<Review>();
+		List<Review> trimmedData = new ArrayList<Review>();
 		reviews.parallelStream().forEach(r -> {
 			Review t = new Review();
 			Movie m = new Movie();
@@ -77,9 +76,9 @@ public class ReviewServiceImp implements ReviewService, ReviewSummary{
 			t.setCreated(r.getCreated());
 			t.setMovie(m);
 			t.setUser(u);
-			trim.add(t);
+			trimmedData.add(t);
 		});
-		return trim;
+		return trimmedData;
 	}
 
 }

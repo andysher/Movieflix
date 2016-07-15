@@ -36,7 +36,7 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User create(User user) {
 		List<User> existing = repository.searchByEmail(user.getEmail().toLowerCase());
-		if (existing.size() == 0) {
+		if (existing == null) {
 			user.setType(UserType.User.name());
 			return repository.create(user);
 		}else
