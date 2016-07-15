@@ -15,10 +15,16 @@ public interface MovieRepository {
 	public List<Movie> searchByType(String type);
 	
 	public List<Movie> searchByGenre(String genre);
+	
+	public List<Movie> searchByImdbID(String imdbID);
 
 	public Movie create(Movie movie);
 	
 	public Movie update(Movie movie);
 
 	public void delete(Movie movie);
+
+	public List<Movie> topMovies();
+	
+	public List<Movie> topSeries();
 }

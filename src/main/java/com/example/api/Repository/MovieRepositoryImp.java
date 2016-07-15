@@ -65,4 +65,29 @@ public class MovieRepositoryImp implements MovieRepository {
 		return movies;
 	}
 
+	@Override
+	public List<Movie> searchByImdbID(String imdbID) {
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByImdbId", Movie.class).setParameter("pImdbID", imdbID);
+		List<Movie> movies = query.getResultList();
+		return movies;
+	}
+
+	@Override
+	public List<Movie> topMovies() {
+		TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m WHERE m.type LIKE 'movie' "
+				+ "AND m.imdbRating != 'N/A' order by  m.imdbRating desc", Movie.class)
+				.setMaxResults(5);
+		List<Movie> movies = query.getResultList();
+		return movies;
+	}
+
+	@Override
+	public List<Movie> topSeries() {
+		TypedQuery<Movie> query = em.createQuery("SELECT m FROM Movie m WHERE m.type LIKE 'series' "
+				+ "AND m.imdbRating != 'N/A' order by  m.imdbRating desc", Movie.class)
+				.setMaxResults(5);
+		List<Movie> movies = query.getResultList();
+		return movies;
+	}
+
 }

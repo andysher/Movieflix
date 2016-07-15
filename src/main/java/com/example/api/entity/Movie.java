@@ -11,11 +11,14 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.example.api.View.View;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table
+@JsonInclude(Include.NON_NULL)
 @NamedQueries({ @NamedQuery(name = "Movie.findByImdbId", query = "SELECT m FROM Movie m WHERE m.imdbID = :pImdbID"),
 		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE lower(m.title) LIKE :pTitle"),
 		@NamedQuery(name = "Movie.findByType", query = "SELECT m FROM Movie m WHERE lower(m.type) LIKE :pType"),
@@ -60,6 +63,7 @@ public class Movie {
 	@JsonProperty("Awards")
 	private String awards;
 	@Column(length = 500)
+	@JsonView(View.Summary.class)
 	@JsonProperty("Poster")
 	private String poster;
 	@JsonProperty("Metascore")

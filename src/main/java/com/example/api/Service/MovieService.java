@@ -24,4 +24,6 @@ public interface MovieService {
 	public List<Movie> searchByType(String type);
 	
 	public List<Movie> searchByGenre(String genre);
+
+	public List<Movie> getTopRated();
 }

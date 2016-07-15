@@ -4,25 +4,39 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.example.api.View.View;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table
+@JsonInclude(Include.NON_NULL)
+@NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE lower(u.email) LIKE :pEmail") })
 public class User {
 
 	@Id
 	@GenericGenerator(strategy = "uuid2", name = "myuuid")
 	@GeneratedValue(generator = "myuuid")
+	@JsonView(View.Summary.class)
 	private String id;
 
+	@JsonView(View.Summary.class)
 	private String firstName;
-	private String lastname;
+	@JsonView(View.Summary.class)
+	private String lastName;
 
+	@JsonView(View.Summary.class)
 	@Column(unique = true)
 	private String email;
 	private String password;
+	@JsonView(View.Summary.class)
 	private String type;
 
 	public String getId() {
@@ -42,11 +56,11 @@ public class User {
 	}
 
 	public String getLastname() {
-		return lastname;
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {

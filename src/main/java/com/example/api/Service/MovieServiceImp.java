@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.api.Exception.MovieAlreadyExistException;
 import com.example.api.Exception.MovieNotFound;
 import com.example.api.Repository.MovieRepository;
 import com.example.api.entity.Movie;
@@ -35,7 +36,13 @@ public class MovieServiceImp implements MovieService {
 
 	@Override
 	public Movie create(Movie movie) {
-		return repository.create(movie);
+		List<Movie> existing = repository.searchByImdbID(movie.getImdbID());
+		if (existing.size() == 0)
+			return repository.create(movie);
+		else
+			throw new MovieAlreadyExistException("Movie with imdbID=" 
+		+ movie.getImdbID()+" already exists in the database");
+
 	}
 
 	@Override
@@ -44,7 +51,7 @@ public class MovieServiceImp implements MovieService {
 		movies.forEach(t -> temp.add(repository.create(t)));
 		return temp;
 	}
-	
+
 	@Override
 	public Movie update(String id, Movie movie) {
 		Movie existing = repository.findOne(id);
@@ -68,16 +75,22 @@ public class MovieServiceImp implements MovieService {
 		return temp;
 	}
 
-
 	@Override
 	public List<Movie> searchByType(String type) {
 		return repository.searchByType(type.toLowerCase());
 	}
 
-	
 	@Override
 	public List<Movie> searchByGenre(String genre) {
 		return repository.searchByGenre(genre.toLowerCase());
+	}
+
+	@Override
+	public List<Movie> getTopRated() {
+		List<Movie> allMovies = new ArrayList<Movie>();
+		allMovies.addAll(repository.topMovies());
+		allMovies.addAll(repository.topSeries());
+		return allMovies;
 	}
 
 }
