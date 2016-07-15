@@ -45,15 +45,15 @@ public class MovieRepositoryImp implements MovieRepository {
 
 	@Override
 	public List<Movie> searchByTitle(String title) {
-		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByTitle", Movie.class).setParameter("pTitle",
-				"%" + title + "%");
-		List<Movie> movies = query.getResultList();
-		return movies;
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByTitle", Movie.class)
+				.setParameter("pTitle", "%" + title + "%");
+		return query.getResultList();
 	}
 
 	@Override
 	public List<Movie> searchByType(String type) {
-		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByType", Movie.class).setParameter("pType", type);
+		TypedQuery<Movie> query = em.createNamedQuery("Movie.findByType", Movie.class)
+				.setParameter("pType", type);
 		List<Movie> movies = query.getResultList();
 		return movies;
 	}

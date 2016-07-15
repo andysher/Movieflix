@@ -37,7 +37,7 @@ public class MovieServiceImp implements MovieService {
 	@Override
 	public Movie create(Movie movie) {
 		List<Movie> existing = repository.searchByImdbID(movie.getImdbID());
-		if (existing.size() == 0)
+		if (existing == null)
 			return repository.create(movie);
 		else
 			throw new MovieAlreadyExistException("Movie with imdbID=" 
